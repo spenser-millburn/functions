@@ -1,0 +1,3 @@
+function slack
+slac
+end
