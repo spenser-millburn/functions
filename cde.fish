@@ -1,3 +1,3 @@
 function cde
-cd /home/smillburn/personal/repo/education
+cd $ENVDIR/repo/education
 end
