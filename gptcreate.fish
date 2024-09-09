@@ -87,8 +87,7 @@ function gptcreate
     e --------------------------------------------------------------------------------------------------------
     walk_and_cat_source | g please wriite a nicely formatted, but minimal and to the point markdown README file, respond with the content of this file only > README.md
     mdview README.md
-
-
     remove_code_blocks
+    dockerize 
     cd $cwd
 end
