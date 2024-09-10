@@ -19,8 +19,11 @@ function gptmodify
     set modification_json_structure "A list of dictionaries, each with a filename as the key and a description of the modifications needed to that file."
     set modification_json_prompt "Please analyze the current files and generate a list of modifications based on this prompt: $modification_prompt. The structure should be $modification_json_structure."
 
-    set modification_plan (g "$modification_prompt" "$file_overview_json" "$modification_json_prompt")
+    set filter_no_modifications "If no modifications are required please dont include the modification in the output"
+
+    set modification_plan (g "$modification_prompt" "$file_overview_json" "$modification_json_prompt" "$filter_no_modifications")
     echo $modification_plan | tee modification_plan.json | jq
+
     set modification_plan_file modification_plan.json
 
     # e --------------------------------------------------------------------------------------------------------
