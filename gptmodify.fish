@@ -13,7 +13,8 @@ function gptmodify
     set json_prompt "Please describe the current files in the project. The key should be the file path, and the value should be a brief description of the current contents. The structure of this file should be $json_structure"
     
     set file_overview_json (g from "$project_context" . "$json_prompt")
-    echo $file_overview_json | tee file_overview.json | jq
+    
+    # echo $file_overview_json | tee file_overview.json | jq
 
     # Review the modification prompt and generate instructions for which files need to be changed
     set modification_json_structure "A list of dictionaries, each with a filename as the key and a description of the modifications needed to that file."
@@ -22,13 +23,16 @@ function gptmodify
     set filter_no_modifications "If no modifications are required please dont include the modification in the output"
 
     set modification_plan (g "$modification_prompt" "$file_overview_json" "$modification_json_prompt" "$filter_no_modifications")
+    e --------------------------------------------------------------------------------------------------------
+    e "                                  MODIFICATION PLAN                                                   "
+    e --------------------------------------------------------------------------------------------------------
     echo $modification_plan | tee modification_plan.json | jq
 
     set modification_plan_file modification_plan.json
 
-    # e --------------------------------------------------------------------------------------------------------
-    # e "                                  APPLYING MODIFICATIONS                                               "
-    # e --------------------------------------------------------------------------------------------------------
+    e --------------------------------------------------------------------------------------------------------
+    e "                                  APPLYING MODIFICATIONS                                               "
+    e --------------------------------------------------------------------------------------------------------
 
     set modification_content (cat $modification_plan_file | jq -c '.[]')
     for item in $modification_content
