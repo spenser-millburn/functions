@@ -14,31 +14,30 @@ function dockerize
     # Generate Dockerfile using GPT
     set dockerfile_desc "Please generate a Dockerfile for this project based on the provided context. The Dockerfile should be simple and efficient, use best practices, and specify necessary dependencies and build steps. respond with onnly the Dockerfile content and nothing more"
     g "$full_docker_prompt" "$dockerfile_desc" > Dockerfile
-    echo "Dockerfile content generated:"
-    cat Dockerfile 
+    echo "Dockerfile content generated."
+    # cat Dockerfile
 
     # Generate docker-compose.yml using GPT
     set compose_desc "Please generate a docker-compose.yml file for this project based on the provided context. It should define services, volumes, and networks if needed, and make sure to expose the correct ports. Respond with only the docker compose file and nothing more"
     g "$full_docker_prompt" "$compose_desc" > docker-compose.yml
-    echo "docker-compose.yml content generated:"
-    cat docker-comose.yml
+    echo "docker-compose.yml content generated."
+    # cat docker-compose.yml
 
-    e --------------------------------------------------------------------------------------------------------
-    e "                                  DOCKERIZATION REVIEW                                                  "
-    e --------------------------------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------------------------------
+    h1 "DOCKERIZATION REVIEW"
+    # --------------------------------------------------------------------------------------------------------
 
     # Review the Dockerfile and docker-compose.yml using GPT
     set docker_sources (walk_and_cat_source Dockerfile docker-compose.yml)
     echo $docker_sources | g please review these Docker-related files and identify any issues > DOCKER_REVIEW.md
     mdview DOCKER_REVIEW.md
 
-    # Optional: Run Docker to verify the setup (uncomment if Docker is available)
-    # docker-compose build
-    # docker-compose up -d
+    docker-compose build
+    docker-compose up -d
 
-    e --------------------------------------------------------------------------------------------------------
-    e "                                  DOCUMENTATION UPDATE                                                  "
-    e --------------------------------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------------------------------
+    h1 "DOCUMENTATION UPDATE"
+    # --------------------------------------------------------------------------------------------------------
 
     # Update the README to reflect the Dockerization process
     # walk_and_cat_source | g please update the README to include instructions for running the project in Docker > README.md

@@ -4,13 +4,18 @@ function gptcreate
     set cwd (pwd)
     set base_prompt "$argv"
     set proj_folder (g respond with a single folder name in snake case format for this project $base_prompt. respond with the folder name only and nothing else)
-    echo $proj_folder
-    mkdir -p  $proj_folder
-    cd $proj_folder
 
+    #Set up  
+    h1 Creating New Project: ./$proj_folder
+    mkdir -p  $proj_folder 
+    cd $proj_folder
+    #Prompt the plan
+    # --------------------------------------------------------------------------------------------------------
+    h1 "PLANNING"
+    # --------------------------------------------------------------------------------------------------------
     set overview (g $base_prompt)
 
-    set code_language "This application should be implemented in Python.Not in fish shell.  "
+    set code_language "This application should be implemented in Python. Not in fish shell.  "
 
     set json_structure "A list of dictionaries, each with a filename as the key and a description as the value."
     
@@ -24,9 +29,6 @@ function gptcreate
 
     set relative_only_prompt "Please make all file paths relative to the current working directory"
 
-    e --------------------------------------------------------------------------------------------------------
-    e "                                 PLANNING                                                           "
-    e --------------------------------------------------------------------------------------------------------
 
     set json (g from $code_language. $overview . $json_prompt  . $typer_wrapper_prompt . $relative_only_prompt)
     e JSON:
@@ -37,15 +39,15 @@ function gptcreate
     e json file path :: $json_file_path
 
 
-    e --------------------------------------------------------------------------------------------------------
-    e "                                  PLAN VALIDATION                                                    "
-    e --------------------------------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------------------------------
+    h1 "PLAN VALIDATION"
+    #--------------------------------------------------------------------------------------------------------
     echo $json | g please summarize this plan for an architecture and confirm its viable > PLAN_VALIDATION.md
     mdview PLAN_VALIDATION.md
 #
-    e --------------------------------------------------------------------------------------------------------
-    e "                                  BUILDING                                                           "
-    e --------------------------------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------------------------------
+    h1 "BUILDING"
+    # --------------------------------------------------------------------------------------------------------
     set json_content (cat $json_file_path | jq -c '.[]')
 
     for item in $json_content
@@ -54,19 +56,27 @@ function gptcreate
         e $file_name : $file_content_desc
         g I would like you to please implement the following $file_content_desc and only respond with the file content. For context, here is the entire current repo  (walk_and_cat_source) > $file_name
     end
+    remove_code_blocks
 
-    e --------------------------------------------------------------------------------------------------------
-    e "                                  IMPLEMENTATION REVIEW                                               "
-    e --------------------------------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------------------------------
+    h1 "IMPLEMENTATION REVIEW"
+    # --------------------------------------------------------------------------------------------------------
     walk_and_cat_source | g please identify any problems > REVIEWME.md
     mdview REVIEWME.md
+    if gptguard "(cat REVIEWME.md)"
+      h1 Fixing Issues 
+      gptmodify (cat REVIEWME.md)
+    else
+      h1 No Problems 
+    end
 
-    e --------------------------------------------------------------------------------------------------------
-    e "                                  DOCUMENTATION                                                       "
-    e --------------------------------------------------------------------------------------------------------
+    #   --------------------------------------------------------------------------------------------------------
+    h1 "DOCUMENTATION"
+    #  --------------------------------------------------------------------------------------------------------
     walk_and_cat_source | g please wriite a nicely formatted, but minimal and to the point markdown README file, respond with the content of this file only > README.md
-    mdview README.md
-    remove_code_blocks
-    dockerize 
+    mdview ./README.md
+    create_python_requirements_txt
+    # dockerize
+    autorun 
     cd $cwd
 end
