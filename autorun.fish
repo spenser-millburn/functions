@@ -1,10 +1,11 @@
 function autorun
     # Gather project structure and file contents
     set project_context (walk_and_cat_source)
+    set docker_prompt "please uise docker compose instead of docker-compose"
 
     # Set up a GPT prompt to analyze the project and determine the appropriate run command
     set run_prompt "Based on the following project files and content, please suggest a command to run the project: $project_context.
-    Only respond with the exact command to run the project. In addition: $argv "
+    Only respond with the exact command to run the project.$docker_prompt. In addition: $argv "
 
     # Get the run command using GPT
     set run_command (g "$run_prompt")
