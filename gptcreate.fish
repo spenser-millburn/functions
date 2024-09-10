@@ -1,4 +1,3 @@
-# Defined via `source`
 function gptcreate
 
     set cwd (pwd)
@@ -48,14 +47,26 @@ function gptcreate
     # --------------------------------------------------------------------------------------------------------
     h1 "BUILDING"
     # --------------------------------------------------------------------------------------------------------
-    set json_content (cat $json_file_path | jq -c '.[]')
+   set json_content (cat $json_file_path | jq -c '.[]')
 
     for item in $json_content
         set file_name (echo $item | jq -r 'keys[0]')
         set file_content_desc (echo $item | jq -r '.[keys[0]]')
+        
+        # Extract the directory from the file_name
+        set dir_name (dirname $file_name)
+        
+        # Check if the directory exists, if not, create it
+        if not test -d $dir_name
+            mkdir -p $dir_name
+        end
+        
         e $file_name : $file_content_desc
-        g I would like you to please implement the following $file_content_desc and only respond with the file content. For context, here is the entire current repo  (walk_and_cat_source) > $file_name
+        
+        # Generate the file content using GPT
+        g "I would like you to please implement the following $file_content_desc and only respond with the file content. For context, here is the entire current repo (walk_and_cat_source)" > $file_name
     end
+
     remove_code_blocks
 
     # --------------------------------------------------------------------------------------------------------
@@ -76,7 +87,7 @@ function gptcreate
     walk_and_cat_source | g please wriite a nicely formatted, but minimal and to the point markdown README file, respond with the content of this file only > README.md
     mdview ./README.md
     create_python_requirements_txt
-    # dockerize
-    autorun 
+    dockerize
+    # autorun
     cd $cwd
 end
