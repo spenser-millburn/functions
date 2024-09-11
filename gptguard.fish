@@ -14,8 +14,8 @@ function gptguard
 
     # Return true if the response is "true", else return false
     if test "$response" = "true"
-        return 0
-    else
         return 1
+    else
+        return 0
     end
 end

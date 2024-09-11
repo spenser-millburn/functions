@@ -1,17 +1,16 @@
 function gpttest
     set cwd (pwd)
-    set base_prompt "$argv"
-    set proj_folder (g respond with a single folder name in snake case format for this project $base_prompt. respond with the folder name only and nothing else)
+    set custom_requests $argv
 
     # Set up  
-    h1 Creating New Test Project: ./$proj_folder
-    mkdir -p  $proj_folder/tests
-    cd $proj_folder/tests
+    h1 Unit Testing Generation Started
+    set project_context (walk_and_cat_source)
+    
     # Prompt the plan
     # --------------------------------------------------------------------------------------------------------
     h1 "TEST PLANNING"
     # --------------------------------------------------------------------------------------------------------
-    set overview (g "I would like to create unit tests for the following project: $base_prompt. Please describe the necessary files, test cases, and methods that need to be tested.")
+    set overview (g "I would like to create unit tests for the following $project_context. Please note that the current directory right now is (pwd). Please describe the necessary files, test cases, and methods that need to be tested.")
 
     set code_language "The tests should be written in Python using pytest as the test framework."
 
@@ -23,7 +22,7 @@ function gpttest
 
     set relative_only_prompt "Please make all file paths relative to the current working directory."
 
-    set json (g from $code_language. $overview . $json_prompt . $relative_only_prompt)
+    set json (g from $code_language. $overview . $json_prompt . $relative_only_prompt $custom_requests)
     e JSON:
 
     set json_file_name tests.json
@@ -50,38 +49,36 @@ function gpttest
         # Extract the directory from the file_name
         set dir_name (dirname $file_name)
         
-        # Check if the directory exists, if not, create it
-        if not test -d $dir_name
-            mkdir -p $dir_name
-        end
-        
+        # Ensure the file paths are relative to the root of the repository
+        # No subdirectory creation
+
         e $file_name : $file_content_desc
         
         # Generate the test file content using GPT
-        g "Please implement the following unit tests: $file_content_desc and respond with the test file content only. For context, here is the entire current repo (walk_and_cat_source)" > $file_name
+        g "Please implement the following unit tests: $file_content_desc and respond with the test file content only. For context, here is the entire current repo $project_context" > $file_name
+
     end
 
     remove_code_blocks
 
     # --------------------------------------------------------------------------------------------------------
-    h1 "TEST REVIEW"
+    # h1 "TEST REVIEW"
     # --------------------------------------------------------------------------------------------------------
-    walk_and_cat_source | g please identify any problems with these tests > TEST_REVIEW.md
-    mdview TEST_REVIEW.md
-    if gptguard "(cat TEST_REVIEW.md)"
-      h1 Fixing Test Issues
-      gptmodify (cat TEST_REVIEW.md)
-    else
-      h1 No Test Issues
-    end
+    # walk_and_cat_source | g please identify any problems with these tests > TEST_REVIEW.md
+    # mdview TEST_REVIEW.md
+    # if gptguard "(cat TEST_REVIEW.md)"
+      # h1 Fixing Test Issues
+      # gptmodify (cat TEST_REVIEW.md)
+    # else
+      # h1 No Test Issues
+    # end
 
     # --------------------------------------------------------------------------------------------------------
-    h1 "TEST DOCUMENTATION"
+    # h1 "TEST DOCUMENTATION"
     # --------------------------------------------------------------------------------------------------------
-    walk_and_cat_source | g please write a markdown README file that explains how to run the tests, respond with the content of this file only > TEST_README.md
-    mdview ./TEST_README.md
-    create_python_requirements_txt
-    dockerize_tests
+    # walk_and_cat_source | g please write a markdown README file that explains how to run the tests, respond with the content of this file only > TEST_README.md
+    # mdview ./TEST_README.md
+    # create_python_requirements_txt
     # autorun
-    cd $cwd
+    # cd $cwd
 end

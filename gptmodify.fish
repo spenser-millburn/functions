@@ -23,16 +23,16 @@ function gptmodify
     set filter_no_modifications "If no modifications are required please dont include the modification in the output"
 
     set modification_plan (g "$modification_prompt" "$file_overview_json" "$modification_json_prompt" "$filter_no_modifications")
-    e --------------------------------------------------------------------------------------------------------
-    e "                                  MODIFICATION PLAN                                                   "
-    e --------------------------------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------------------------------
+    h1 "                                  MODIFICATION PLAN                                                   "
+    # --------------------------------------------------------------------------------------------------------
     echo $modification_plan | tee modification_plan.json | jq
 
     set modification_plan_file modification_plan.json
 
-    e --------------------------------------------------------------------------------------------------------
-    e "                                  APPLYING MODIFICATIONS                                               "
-    e --------------------------------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------------------------------
+    h1 "                                  APPLYING MODIFICATIONS                                               "
+    # --------------------------------------------------------------------------------------------------------
 
     set modification_content (cat $modification_plan_file | jq -c '.[]')
     for item in $modification_content
@@ -43,9 +43,9 @@ function gptmodify
         g "$modification_desc" "please modify this file according to the description, here is the current file content:" (cat $file_name) > $file_name
     end
 
-    e --------------------------------------------------------------------------------------------------------
-    e "                                  MODIFICATION REVIEW                                                  "
-    e --------------------------------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------------------------------
+    h1"                                  MODIFICATION REVIEW                                                  "
+    # --------------------------------------------------------------------------------------------------------
 
     walk_and_cat_source | g please review these modified files and identify any issues with the changes > MODIFICATION_REVIEW.md
     mdview MODIFICATION_REVIEW.md
