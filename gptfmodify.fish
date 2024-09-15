@@ -1,12 +1,12 @@
-function gptmodify
+function gptfmodify
     # Get the current working directory
     set cwd (pwd)
 
     # Store the user-supplied modification prompt
-    set modification_prompt "$argv"
+    set modification_prompt "$argv[2..-1]"
 
     # Fetch the current state of the project by walking and concatenating the file contents
-    set project_context (walk_and_cat_source)
+    set project_context cat $argv[1]
     
     # Generate a description of the existing files using the project context
     set json_structure "A list of dictionaries, each with a filename as the key and a description of the current file contents."
@@ -45,24 +45,9 @@ function gptmodify
     end
 
     # --------------------------------------------------------------------------------------------------------
-    h1 "                                  MODIFICATION REVIEW                                                  "
-    # --------------------------------------------------------------------------------------------------------
-
-    walk_and_cat_source | g please review these modified files and identify any issues with the changes, respond 100 words or less as markdown bullet points > MODIFICATION_REVIEW.md
-    mdview MODIFICATION_REVIEW.md
-
-    # e --------------------------------------------------------------------------------------------------------
-    # e "                                  DOCUMENTATION UPDATE                                                 "
-    # e --------------------------------------------------------------------------------------------------------
-
-    # walk_and_cat_source | g please update the README to reflect recent modifications > README.md
-    # mdview README.md
-
-    remove_code_blocks
-    # --------------------------------------------------------------------------------------------------------
     h1 "                                 DIFF "
     # --------------------------------------------------------------------------------------------------------
-    gcm # smart commit function  
+    # gcm # smart commit function
     git diff
   
     cd $cwd
