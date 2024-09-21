@@ -1,3 +1,3 @@
 function q
- adxloginexecute --kql-file $argv[1] --rich-output   
+ sh -c "adxloginexecute --kql-file $argv[1] --rich-output $arg[2..-1]"   
 end
