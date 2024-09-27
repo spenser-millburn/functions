@@ -5,7 +5,7 @@ function walk_and_cat_source
     end
 
     for file in (find $path -type f | grep -v '/\.git/')
-        if file $file | grep -qE 'Python|C\+\+|Java|JavaScript|Ruby|Perl|PHP|HTML|CSS|Shell|Dockerfile|docker-compose\.yml'
+        if file $file | grep -qE 'Python|C\+\+|Java|JavaScript|Ruby|Perl|PHP|HTML|CSS|Shell|Dockerfile|docker-compose\.yml|py'
             echo $file
             cat $file
         end

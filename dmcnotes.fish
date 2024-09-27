@@ -1,0 +1,3 @@
+function dmcnotes
+echo 'The loop here involves continuously processing the segment queue and maneuvers. The DMC starts by initializing the segment queue and evaluating waypoints to determine the next maneuver. It then initializes the current maneuver and executes it. During execution, the DMC continuously analyzes the maneuver to check if it has been completed or if any errors have occurred. If the maneuver is completed successfully, it moves to the next maneuver or completes the segment queue. If any errors occur, the DMC aborts the queue and stops the bot. This loop ensures that the DMC can handle a series of maneuvers in a segment queue, responding to changes and errors dynamically.'
+end
