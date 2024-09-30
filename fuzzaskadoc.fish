@@ -22,11 +22,11 @@ function fuzzaskadoc
      set content (echo $link | xargs curl | html2text >> $cache_path )
    end
 
-   set prompt (prompt press enter to view the found documentation: )
-   h1 FOUND DOCS
-   mdview $cache_path
-   echo "Scraped Data: $cache_path "
-   e "LINE_COUNT:" (cat $cache_path | wc -l)
+   # set prompt (prompt press enter to view the found documentation: )
+   # h1 FOUND DOCS
+   # mdview $cache_path
+   # echo "Scraped Data: $cache_path "
+   # e "LINE_COUNT:" (cat $cache_path | wc -l)
 
    set prompt (prompt please enter your question and hit enter: )
    set cache_path2 (mktemp)
