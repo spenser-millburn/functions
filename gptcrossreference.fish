@@ -1,5 +1,5 @@
 function gptcrossreference
 set a $argv[1]
-set b $argb[2]
-g from this $b , please modify $a to $argv
+set b $argv[2]
+g use this design pattern (cat $a)  , to modify (cat $b) "$argv"
 end

@@ -1,3 +1,3 @@
 function dclogs
-docker compose logs -f "$argv"
+docker compose logs -f
 end
