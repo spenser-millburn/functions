@@ -15,7 +15,7 @@ function gptlacreate
     set overview (g $base_prompt)
 
     # Determine the project's language dynamically
-    set code_language (g "Which programming language should be used for the following project? Please respond with the language only based on the following prompt: $overview")
+    set code_languages (g "Which programming languages should be used for the following project? Please respond with the languages only based on the following prompt: $overview")
 
     set json_structure "A list of dictionaries, each with a filename as the key and a description as the value."
     
@@ -58,7 +58,7 @@ function gptlacreate
         e $file_name : $file_content_desc
         
         # Generate the file content using GPT
-        g "Please implement the following file based on the description: $file_content_desc. Make sure the code is implemented in $code_language unless it's a configuration or non-code file (e.g., requirements.txt). Do not include the plan in the code files" > $file_name
+        g "Please implement the following file based on the description: $file_content_desc. Make sure the code is implemented in $code_languages unless it's a configuration or non-code file (e.g., requirements.txt). Do not include the plan in the code files" > $file_name
     end
 
     remove_code_blocks
