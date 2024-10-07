@@ -1,8 +1,11 @@
 function promptguard
-    echo -n $argv
+    e $argv "(y/n)"
     read -l response
     if test "$response" = "y" 
-    elif test "$response" = "n" 
+      e continuing 
+    else if test "$response" = "n" 
+        e exiting 
         exit
     end
+
 end

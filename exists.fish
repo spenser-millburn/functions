@@ -1,3 +1,3 @@
 function exists
-    test -e -- $argv[1]
+    test -e $argv[1]
 end
