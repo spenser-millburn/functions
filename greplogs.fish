@@ -1,3 +1,3 @@
 function greplogs
-ag "$argv" --file-search-regex '\.log$'
+ag -l "$argv" --file-search-regex '\.log$'
 end
