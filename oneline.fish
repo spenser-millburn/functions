@@ -1,3 +1,3 @@
 function oneline
-for x in ($argv); echo $x; end
+  paste | g please make this one line
 end
