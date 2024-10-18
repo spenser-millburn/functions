@@ -1,3 +1,3 @@
 function csvcolumns
-  head -n 1 $argv[1].csv | tr ',' '\n'
+  head -n 1 $argv[1]| tr ',' '\n'
 end
