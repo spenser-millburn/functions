@@ -1,3 +1,3 @@
-function rc 
+function rc
 vim ~/.config/fish/config.fish
 end
