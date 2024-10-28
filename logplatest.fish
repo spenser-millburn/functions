@@ -3,7 +3,6 @@ function logplatest
      set log_name (logls $grid_id latest 1  | getfield 9 | cut -d '.' -f1 )                                                            
      logpull $grid_id $log_name                                                       
      datapull $grid_id $log_name
-     log2h $log_name                                                                  
      logview $log_name
      log2csv (logdir)/$log_name/$log_name-data.txt
      echo (logdir)/$log_name/$log_name-data.csv myminio/alphabot-logs-bucket
