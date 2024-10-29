@@ -1,4 +1,4 @@
 function gs
-sgpt --shell "$argv"
+python3 -m sgpt --shell "$argv"
 
 end
