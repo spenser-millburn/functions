@@ -15,5 +15,5 @@ class LogTools():
 ut = LogTools()
 pp(ut.get_fault('fault_' + '$argv[1]'))
 "
-python -c $SCRIPT
+python3 -c $SCRIPT
 end

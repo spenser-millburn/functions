@@ -1,3 +1,3 @@
 function fix
-g fix (paste)
+g fix (paste) "$argv"
 end
