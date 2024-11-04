@@ -4,15 +4,19 @@ function logplatest
 
      logpull $grid_id $log_name                                                       
      datapull $grid_id $log_name
-     logview $log_name
 
      log2csv (logdir)/$log_name/$log_name-data.txt
      echo (logdir)/$log_name/$log_name-data.csv myminio/alphabot-logs-bucket
 
      set bucket myminio/alphabot-logs-bucket
 
-     mc cp (logdir)/$log_name/$log_name-data.csv $bucket
-     mc cp (logdir)/$log_name/$log_name.txt $bucket
+     if exists (logdir)/$log_name/$log_name-data.csv
+       mc cp (logdir)/$log_name/$log_name-data.csv $bucket
+     end
+     if exists (logdir)/$log_name/$log_name-data.csv
+       mc cp (logdir)/$log_name/$log_name.txt $bucket
+     end
+
 
      if exists (logdir)/$log_name/video_files
       mv video_files $log_name-video_files
@@ -20,6 +24,7 @@ function logplatest
       mc cp (logdir)/$log_name-video_files.tar.gz $bucket
      end
 
+     logview $log_name
 
      # echo (logdir)/$log_name | clip
      # cdlogs $log_name

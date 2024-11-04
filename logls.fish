@@ -1,6 +1,6 @@
 function logls
 if not set -q argv[1]
-  ls -l (logdir) --sort newest
+  mc ls myminio/alphabot-logs-bucket | sort
 else 
   if [ "$argv[2]" = "latest" ]
     ssh -t $argv[1] "ls -lt /mnt/sd_log |grep alphabot | grep -v data| grep -v stdout  | grep key | head -n$argv[3]"
