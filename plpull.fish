@@ -1,5 +1,7 @@
 function plpull
-set log_name $argv[1]
- mcfindcp $AB_LOG_BUCKET $log_name
- mcfindcp $AB_PLOT_BUCKET $log_name
+    for file in (find . | ag "$ALPHABOT_TEXT_LOG_REGEX")
+        mcfindcp $AB_LOG_BUCKET (echo (basename $file) | cut -d . -f 1) 
+        mcfindcp $AB_PLOT_BUCKET (echo (basename $file) | cut -d . -f 1)
+        mcfindcp $AB_SUMMARY_BUCKET (echo (basename $file) | cut -d . -f 1)
+    end
 end
