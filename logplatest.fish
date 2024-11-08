@@ -6,7 +6,6 @@ function logplatest
      datapull $grid_id $log_name
 
      log2csv (logdir)/$log_name/$log_name-data.txt
-     echo (logdir)/$log_name/$log_name-data.csv myminio/alphabot-logs-bucket
 
      set bucket myminio/alphabot-logs-bucket
 
