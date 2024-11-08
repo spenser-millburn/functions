@@ -1,10 +1,6 @@
 function expand_all_logs_in_cwd
-    if not test -d ./textlogs
-      sudo mkdir -p ./textlogs
-    end
-    for file in (find . -name "*.key.thl")
-        set filename (echo $file | cut -d . -f 2| tr -d "/")
-        echo $filename
-        thl $filename.key.thl $filename.thl >./textlogs/$filename.txt
+    for key in (find . | grep alphabot | grep thl | grep key)
+        set logname (echo $key |cut -d "." -f 2| cut -d "/" -f 2)
+        thl --ts utc $logname.key.thl $logname.thl >$logname.txt
     end
 end
