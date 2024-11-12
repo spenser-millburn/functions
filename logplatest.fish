@@ -12,6 +12,7 @@ function logplatest
      if exists (logdir)/$log_name/$log_name-data.csv
        mc cp (logdir)/$log_name/$log_name-data.csv $bucket
      end
+
      if exists (logdir)/$log_name/$log_name-data.csv
        mc cp (logdir)/$log_name/$log_name.txt $bucket
      end
