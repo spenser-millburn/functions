@@ -10,7 +10,7 @@ function build
     qnx_70_toolchain
     # cd $HOME/build/alphabot-qnx-7_0_0_armv7-assert
     # make -j16
-    alert-utils builder-qcc70 bash -c "source /opt/alert/toolchains/qnx-sdp/7.0.0/qnxsdp-env.sh;source ~/.bash_profile; cd /root/build/alphabot-qnx-7_0_0_armv7-assert;make -j16" | sed "s|/root\/alphabot|$ALPHABOT_REPO_DIR|g"
+    alert-utils --remove-orphans builder-qcc70 bash -c "source /opt/alert/toolchains/qnx-sdp/7.0.0/qnxsdp-env.sh;source ~/.bash_profile; cd /root/build/alphabot-qnx-7_0_0_armv7-assert;make -j16" | sed "s|/root\/alphabot|$ALPHABOT_REPO_DIR|g"
    # fish
   else if [ "$argv[1]" = "71" ]
     qnx_71_toolchain
