@@ -1,3 +1,3 @@
 function create-ssh-key
-ssh-keygen && cat ~/.ssh/id_rsa.pub | clip
+ssh-keygen && cat ~/.ssh/id_rsa2.pub | clip
 end
