@@ -1,7 +1,7 @@
 function af
 if [ "$argv[1]" = "get" ]
 cda
-jf rt dl "*$argv[2]*" 
+jf rt dl "*$argv[2]*" .
 end
 if [ "$argv[1]" = "." ]
 jf rt dl "$argv[2]/*$argv[3]*" --flat
