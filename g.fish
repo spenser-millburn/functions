@@ -18,7 +18,7 @@ function g
   set remove_azure_prompt "please do not mention azure ai unless it actually relates to the conversation."
   set base_prompt "$remove_azure_prompt.$lines. The folllowing should be treated as the user prompt[$argv]"
   # echo $base_prompt
-  ai chat --system "$base_prompt"  --user "go"|  sed '1,7d' |sed 's/^[^ ]*:\s*//' | string collect
+  ai chat --system "$base_prompt"  --user "go"|  sed '1,7d' |sed 's/^[^ ]*:\s*//' | string collect | pretty
 
 
 end

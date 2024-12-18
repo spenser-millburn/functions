@@ -1,3 +1,3 @@
 function explain
-g why (paste) "$argv"
+pg why (paste) "$argv"
 end
