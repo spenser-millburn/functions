@@ -7,7 +7,7 @@ function consolidate_thl_files
 
     for numbered_file in ( find . | ag $ALPHABOT_RAW_TEXT_NUMBERED_LOG_REGEX| sort -V)
       echo $numbered_file
-        cat $numbered_file >> $base_file
+        cat $numbered_file>>  $base_file
         rm $numbered_file
     end
 
