@@ -19,7 +19,7 @@ function g
   set base_prompt "$remove_azure_prompt.$lines. The folllowing should be treated as the user prompt[$argv]"
   # echo $base_prompt
   # sed '1,7d' |sed 's/^[^ ]*:\s*//' 
-  ai chat --system "$base_prompt"  --user "go" | string collect #| pretty
+  ai chat --system "$base_prompt" --user "go" | sed '1,7d' | sed 's/^[^ ]*assistant:\s*//' | string collect #| pretty
 
 
 end
