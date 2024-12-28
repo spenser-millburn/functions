@@ -1,4 +1,4 @@
 function actoraideallocate
  az aks stop --name actorai --resource-group actorai                                                                                                                                  
- az vmss deallocate --resource-group MC_actorai_actorai_eastus --name aks-b2snodepool-24186406-vmss
+ az vmss deallocate --resource-group actorai_infrastructure --name aks-agentpool-10866577-vmss
 end
